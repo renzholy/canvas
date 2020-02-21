@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>Scratch Paper</title>
     <style>
       body,
@@ -10,7 +13,8 @@
       canvas {
         margin: 0;
         width: 100vw;
-        height: 100vh;
+        height: -webkit-fill-available;
+        overscroll-behavior: none;
       }
     </style>
   </head>
@@ -21,32 +25,24 @@
     <script>
       const c = document.getElementById('c')
       const ctx = c.getContext('2d')
-
-      function draw() {
-        ctx.beginPath()
-        ctx.moveTo(0, 0)
-        ctx.lineTo(300, 150)
-        ctx.stroke()
-      }
+      const scale = window.devicePixelRatio
 
       function onResize() {
-        const scale = 2
-        c.width = document.body.clientWidth * 2
-        c.height = document.body.clientHeight * 2
+        c.width = window.innerWidth * scale
+        c.height = window.innerHeight * scale
       }
 
       document.body.onresize = () => {
         onResize()
-        draw()
       }
 
       document.body.ontouchstart = e => {
         ctx.beginPath()
-        ctx.moveTo(e.touches[0].clientX * 2, e.touches[0].clientY * 2)
+        ctx.moveTo(e.touches[0].clientX * scale, e.touches[0].clientY * scale)
       }
 
       document.body.ontouchmove = e => {
-        ctx.lineTo(e.touches[0].clientX * 2, e.touches[0].clientY * 2)
+        ctx.lineTo(e.touches[0].clientX * scale, e.touches[0].clientY * scale)
         ctx.stroke()
       }
 
@@ -55,7 +51,6 @@
       }
 
       onResize()
-      draw()
     </script>
   </body>
 </html>

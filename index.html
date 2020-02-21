@@ -37,8 +37,13 @@
       }
 
       document.body.ontouchstart = e => {
-        ctx.beginPath()
         ctx.moveTo(e.touches[0].clientX * scale, e.touches[0].clientY * scale)
+      }
+
+      document.body.onmousedown = e => {
+        if (e.buttons === 1) {
+          ctx.moveTo(e.clientX * scale, e.clientY * scale)
+        }
       }
 
       document.body.ontouchmove = e => {
@@ -46,8 +51,11 @@
         ctx.stroke()
       }
 
-      document.body.ontouchend = e => {
-        ctx.stroke()
+      document.body.onmousemove = e => {
+        if (e.buttons === 1) {
+          ctx.lineTo(e.clientX * scale, e.clientY * scale)
+          ctx.stroke()
+        }
       }
 
       onResize()

@@ -40,6 +40,20 @@
         draw()
       }
 
+      document.body.ontouchstart = e => {
+        ctx.beginPath()
+        ctx.moveTo(e.touches[0].clientX * 2, e.touches[0].clientY * 2)
+      }
+
+      document.body.ontouchmove = e => {
+        ctx.lineTo(e.touches[0].clientX * 2, e.touches[0].clientY * 2)
+        ctx.stroke()
+      }
+
+      document.body.ontouchend = e => {
+        ctx.stroke()
+      }
+
       onResize()
       draw()
     </script>

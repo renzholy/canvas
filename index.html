@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scratch Paper</title>
+    <style>
+      body,
+      html,
+      canvas {
+        margin: 0;
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="c"></canvas>
+
+    <script>
+      const c = document.getElementById('c')
+      const ctx = c.getContext('2d')
+
+      function draw() {
+        ctx.beginPath()
+        ctx.moveTo(0, 0)
+        ctx.lineTo(300, 150)
+        ctx.stroke()
+      }
+
+      function onResize() {
+        const scale = 2
+        c.width = document.body.clientWidth * 2
+        c.height = document.body.clientHeight * 2
+      }
+
+      document.body.onresize = () => {
+        onResize()
+        draw()
+      }
+
+      onResize()
+      draw()
+    </script>
+  </body>
+</html>

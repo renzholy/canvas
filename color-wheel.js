@@ -1,4 +1,4 @@
-export function generateColorWheel(radius) {
+export function generateColorWheel(radius, handleColorSelect) {
   const colors = [
     '#F44336',
     '#E91E63',
@@ -21,6 +21,7 @@ export function generateColorWheel(radius) {
     '#607D8B',
     '#000000',
   ]
+  const borderWidth = radius / 8
   const colorWheel = document.createElement('div')
   colorWheel.style.display = 'none'
   colorWheel.style.position = 'fixed'
@@ -37,17 +38,27 @@ export function generateColorWheel(radius) {
   }
   const center = document.createElement('div')
   center.style.position = 'absolute'
-  center.style.left = `${radius >> 1}px`
-  center.style.top = `${radius >> 1}px`
+  center.style.left = `${(radius >> 1) - borderWidth}px`
+  center.style.top = `${(radius >> 1) - borderWidth}px`
   center.style.background = 'white'
   center.style.width = `${radius}px`
   center.style.height = `${radius}px`
   center.style.borderRadius = '100%'
+  center.style.border = `solid ${borderWidth}px white`
   colorWheel.appendChild(center)
   colorWheel.onmousemove = function(e) {
     const x = e.pageX - this.offsetLeft - radius
-    const y = e.pageY - this.offsetTop - radius
-    console.log(x, y)
+    const y = -(e.pageY - this.offsetTop - radius)
+    const r = Math.sqrt(x * x + y * y)
+    const angle = (Math.atan2(y, x) / Math.PI + 1.5) % 2
+    const index = colors.length - Math.floor((angle / 2) * colors.length) - 1
+    if (r > radius >> 1) {
+      center.style.background = colors[index]
+      handleColorSelect(colors[index])
+    } else {
+      center.style.background = '#FFFFFF'
+      handleColorSelect('#FFFFFF')
+    }
   }
   return { colorWheel }
 }

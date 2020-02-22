@@ -31,7 +31,9 @@
       const ctx = c.getContext('2d')
       const scale = window.devicePixelRatio
       const colorWheelRadius = 80
-      const { colorWheel } = generateColorWheel(colorWheelRadius)
+      const { colorWheel } = generateColorWheel(colorWheelRadius, color => {
+        ctx.strokeStyle = color
+      })
       document.body.appendChild(colorWheel)
 
       function onResize() {
@@ -53,8 +55,9 @@
       }
 
       document.body.onmousedown = e => {
-        switch (e.button) {
+        switch (e.buttons) {
           case 1: {
+            ctx.beginPath()
             ctx.moveTo(e.clientX * scale, e.clientY * scale)
             break
           }
@@ -62,21 +65,16 @@
             colorWheel.style.left = `${e.clientX - colorWheelRadius}px`
             colorWheel.style.top = `${e.clientY - colorWheelRadius}px`
             colorWheel.style.display = 'block'
-            console.log(e)
             break
           }
         }
       }
 
       document.body.onmousemove = e => {
-        switch (e.button) {
+        switch (e.buttons) {
           case 1: {
             ctx.lineTo(e.clientX * scale, e.clientY * scale)
             ctx.stroke()
-            break
-          }
-          case 2: {
-            // console.log(e)
             break
           }
         }
@@ -86,7 +84,6 @@
         switch (e.button) {
           case 2: {
             colorWheel.style.display = 'none'
-            console.log(e)
             break
           }
         }

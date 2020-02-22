@@ -48,16 +48,43 @@
       }
 
       document.body.onmousedown = e => {
-        if (e.buttons === 1) {
-          ctx.moveTo(e.clientX * scale, e.clientY * scale)
+        switch (e.button) {
+          case 1: {
+            ctx.moveTo(e.clientX * scale, e.clientY * scale)
+            break
+          }
+          case 2: {
+            console.log(e)
+            break
+          }
         }
       }
 
       document.body.onmousemove = e => {
-        if (e.buttons === 1) {
-          ctx.lineTo(e.clientX * scale, e.clientY * scale)
-          ctx.stroke()
+        switch (e.button) {
+          case 1: {
+            ctx.lineTo(e.clientX * scale, e.clientY * scale)
+            ctx.stroke()
+            break
+          }
+          case 2: {
+            // console.log(e)
+            break
+          }
         }
+      }
+
+      document.body.onmouseup = e => {
+        switch (e.button) {
+          case 2: {
+            console.log(e)
+            break
+          }
+        }
+      }
+
+      document.body.oncontextmenu = e => {
+        e.preventDefault()
       }
 
       window.onload = () => {

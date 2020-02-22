@@ -30,8 +30,8 @@
       const c = document.getElementById('c')
       const ctx = c.getContext('2d')
       const scale = window.devicePixelRatio
-      const colorWheelSize = 160
-      const colorWheel = generateColorWheel(colorWheelSize)
+      const colorWheelRadius = 80
+      const { colorWheel } = generateColorWheel(colorWheelRadius)
       document.body.appendChild(colorWheel)
 
       function onResize() {
@@ -59,8 +59,8 @@
             break
           }
           case 2: {
-            colorWheel.style.left = `${e.clientX - (colorWheelSize >> 1)}px`
-            colorWheel.style.top = `${e.clientY - (colorWheelSize >> 1)}px`
+            colorWheel.style.left = `${e.clientX - colorWheelRadius}px`
+            colorWheel.style.top = `${e.clientY - colorWheelRadius}px`
             colorWheel.style.display = 'block'
             console.log(e)
             break

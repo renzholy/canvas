@@ -1,4 +1,4 @@
-export function generateColorWheel(size) {
+export function generateColorWheel(radius) {
   const colors = [
     '#F44336',
     '#E91E63',
@@ -28,8 +28,8 @@ export function generateColorWheel(size) {
     const sector = document.createElement('div')
     sector.style.position = 'absolute'
     sector.style.background = colors[index]
-    sector.style.width = `${size}px`
-    sector.style.height = `${size}px`
+    sector.style.width = `${radius << 1}px`
+    sector.style.height = `${radius << 1}px`
     sector.style.borderRadius = '100%'
     sector.style.transform = `rotate(${index * 18 + 45}deg)`
     sector.style.clipPath = 'polygon(50% 50%, 0% 0%, 25% 0%)'
@@ -37,12 +37,17 @@ export function generateColorWheel(size) {
   }
   const center = document.createElement('div')
   center.style.position = 'absolute'
-  center.style.left = `${size >> 2}px`
-  center.style.top = `${size >> 2}px`
+  center.style.left = `${radius >> 1}px`
+  center.style.top = `${radius >> 1}px`
   center.style.background = 'white'
-  center.style.width = `${size >> 1}px`
-  center.style.height = `${size >> 1}px`
+  center.style.width = `${radius}px`
+  center.style.height = `${radius}px`
   center.style.borderRadius = '100%'
   colorWheel.appendChild(center)
-  return colorWheel
+  colorWheel.onmousemove = function(e) {
+    const x = e.pageX - this.offsetLeft - radius
+    const y = e.pageY - this.offsetTop - radius
+    console.log(x, y)
+  }
+  return { colorWheel }
 }

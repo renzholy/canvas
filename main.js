@@ -3,7 +3,7 @@ import { generateColorWheel } from './color-wheel.js'
 const c = document.getElementById('c')
 const ctx = c.getContext('2d')
 const scale = window.devicePixelRatio
-const colorWheelRadius = 80
+const colorWheelRadius = 120
 const colors = [
   '#F44336',
   '#E91E63',
@@ -62,6 +62,17 @@ document.body.ontouchmove = e => {
     case 1: {
       ctx.lineTo(e.touches[0].clientX * scale, e.touches[0].clientY * scale)
       ctx.stroke()
+      break
+    }
+    case 2: {
+      const x = e.touches[0].clientX - e.touches[1].clientX
+      const y = e.touches[1].clientY - e.touches[0].clientY
+      const r = Math.sqrt(x * x + y * y)
+      const angle = (Math.atan2(y, x) / Math.PI + 1.5) % 2
+      const index = colors.length - Math.floor((angle / 2) * colors.length) - 1
+      const color = r > colorWheelRadius ? colors[index] : '#FFFFFF'
+      ctx.strokeStyle = color
+      handleColorSelect(color)
       break
     }
   }

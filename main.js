@@ -4,9 +4,30 @@ const c = document.getElementById('c')
 const ctx = c.getContext('2d')
 const scale = window.devicePixelRatio
 const colorWheelRadius = 80
-const { colorWheel } = generateColorWheel(colorWheelRadius, color => {
-  ctx.strokeStyle = color
-})
+const colors = [
+  '#F44336',
+  '#E91E63',
+  '#9C27B0',
+  '#673AB7',
+  '#3F51B5',
+  '#2196F3',
+  '#03A9F4',
+  '#00BCD4',
+  '#009688',
+  '#4CAF50',
+  '#8BC34A',
+  '#CDDC39',
+  '#FFEB3B',
+  '#FFC107',
+  '#FF9800',
+  '#FF5722',
+  '#795548',
+  '#9E9E9E',
+  '#607D8B',
+  '#000000',
+]
+
+const { colorWheel, handleColorSelect } = generateColorWheel(colors, colorWheelRadius)
 document.body.appendChild(colorWheel)
 
 function onResize() {
@@ -71,6 +92,17 @@ document.body.onmousemove = e => {
     case 1: {
       ctx.lineTo(e.clientX * scale, e.clientY * scale)
       ctx.stroke()
+      break
+    }
+    case 2: {
+      const x = e.clientX - colorWheel.offsetLeft - colorWheelRadius
+      const y = -(e.clientY - colorWheel.offsetTop - colorWheelRadius)
+      const r = Math.sqrt(x * x + y * y)
+      const angle = (Math.atan2(y, x) / Math.PI + 1.5) % 2
+      const index = colors.length - Math.floor((angle / 2) * colors.length) - 1
+      const color = r > colorWheelRadius >> 1 ? colors[index] : '#FFFFFF'
+      ctx.strokeStyle = color
+      handleColorSelect(color)
       break
     }
   }

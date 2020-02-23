@@ -46,12 +46,35 @@
       }
 
       document.body.ontouchstart = e => {
-        ctx.moveTo(e.touches[0].clientX * scale, e.touches[0].clientY * scale)
+        switch (e.touches.length) {
+          case 1: {
+            ctx.beginPath()
+            ctx.moveTo(e.touches[0].clientX * scale, e.touches[0].clientY * scale)
+            break
+          }
+          case 2: {
+            colorWheel.style.left = `${(e.touches[0].clientX + e.touches[1].clientX) / 2 -
+              colorWheelRadius}px`
+            colorWheel.style.top = `${(e.touches[0].clientY + e.touches[1].clientY) / 2 -
+              colorWheelRadius}px`
+            colorWheel.style.display = 'block'
+            break
+          }
+        }
       }
 
       document.body.ontouchmove = e => {
-        ctx.lineTo(e.touches[0].clientX * scale, e.touches[0].clientY * scale)
-        ctx.stroke()
+        switch (e.touches.length) {
+          case 1: {
+            ctx.lineTo(e.touches[0].clientX * scale, e.touches[0].clientY * scale)
+            ctx.stroke()
+            break
+          }
+        }
+      }
+
+      document.body.ontouchend = e => {
+        colorWheel.style.display = 'none'
       }
 
       document.body.onmousedown = e => {

@@ -78,8 +78,9 @@ document.body.ontouchmove = e => {
   }
 }
 
-document.body.ontouchend = e => {
+document.body.ontouchend = document.body.ontouchcancel = e => {
   colorWheel.style.display = 'none'
+  ctx.moveTo(e.clientX * scale, e.clientY * scale)
 }
 
 document.body.onmousedown = e => {
@@ -119,13 +120,9 @@ document.body.onmousemove = e => {
   }
 }
 
-document.body.onmouseup = e => {
-  switch (e.button) {
-    case 2: {
-      colorWheel.style.display = 'none'
-      break
-    }
-  }
+document.body.onmouseup = document.body.onmouseleave = e => {
+  colorWheel.style.display = 'none'
+  ctx.moveTo(e.clientX * scale, e.clientY * scale)
 }
 
 document.body.oncontextmenu = e => {

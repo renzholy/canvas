@@ -3,7 +3,7 @@ import { generateColorWheel } from './color-wheel.js'
 const c = document.getElementById('c')
 const ctx = c.getContext('2d')
 const scale = window.devicePixelRatio
-const colorWheelRadius = 120
+const colorWheelRadius = 100
 const colors = [
   '#F44336',
   '#E91E63',

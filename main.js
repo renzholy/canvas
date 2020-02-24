@@ -13,7 +13,6 @@ const colors = [
   '#2196F3',
   '#03A9F4',
   '#00BCD4',
-  '#009688',
   '#4CAF50',
   '#8BC34A',
   '#CDDC39',
@@ -25,6 +24,7 @@ const colors = [
   '#9E9E9E',
   '#607D8B',
   '#000000',
+  '#FFFFFF',
 ]
 
 const { colorWheel, handleColorSelect } = generateColorWheel(colors, colorWheelRadius)
@@ -33,6 +33,19 @@ document.body.appendChild(colorWheel)
 function onResize() {
   c.width = window.innerWidth * scale
   c.height = window.innerHeight * scale
+}
+
+function handleColorWheel(x, y) {
+  const radius = Math.sqrt(x * x + y * y)
+  const angle = (Math.atan2(y, x) / Math.PI + 1.5) % 2
+  const index = colors.length - Math.floor((angle / 2) * colors.length) - 1
+  const color = colors[index]
+  const r = Math.max(Math.min((radius - colorWheelRadius) << 1, colorWheelRadius), 0.5)
+  handleColorSelect(color, r)
+  ctx.strokeStyle = color
+  ctx.lineWidth = r * 2
+  ctx.lineCap = 'round'
+  ctx.lineJoin = 'round'
 }
 
 document.body.onresize = () => {
@@ -47,9 +60,9 @@ document.body.ontouchstart = e => {
       break
     }
     case 2: {
-      colorWheel.style.left = `${(e.touches[0].clientX + e.touches[1].clientX) / 2 -
+      colorWheel.style.left = `${((e.touches[0].clientX + e.touches[1].clientX) >> 1) -
         colorWheelRadius}px`
-      colorWheel.style.top = `${(e.touches[0].clientY + e.touches[1].clientY) / 2 -
+      colorWheel.style.top = `${((e.touches[0].clientY + e.touches[1].clientY) >> 1) -
         colorWheelRadius}px`
       colorWheel.style.display = 'block'
       break
@@ -67,12 +80,7 @@ document.body.ontouchmove = e => {
     case 2: {
       const x = e.touches[0].clientX - e.touches[1].clientX
       const y = e.touches[1].clientY - e.touches[0].clientY
-      const r = Math.sqrt(x * x + y * y)
-      const angle = (Math.atan2(y, x) / Math.PI + 1.5) % 2
-      const index = colors.length - Math.floor((angle / 2) * colors.length) - 1
-      const color = r > colorWheelRadius ? colors[index] : '#FFFFFF'
-      ctx.strokeStyle = color
-      handleColorSelect(color)
+      handleColorWheel(x >> 1, y >> 1)
       break
     }
   }
@@ -109,12 +117,7 @@ document.body.onmousemove = e => {
     case 2: {
       const x = e.clientX - colorWheel.offsetLeft - colorWheelRadius
       const y = -(e.clientY - colorWheel.offsetTop - colorWheelRadius)
-      const r = Math.sqrt(x * x + y * y)
-      const angle = (Math.atan2(y, x) / Math.PI + 1.5) % 2
-      const index = colors.length - Math.floor((angle / 2) * colors.length) - 1
-      const color = r > colorWheelRadius >> 1 ? colors[index] : '#FFFFFF'
-      ctx.strokeStyle = color
-      handleColorSelect(color)
+      handleColorWheel(x, y)
       break
     }
   }

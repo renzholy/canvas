@@ -25,5 +25,21 @@
     <canvas id="c"></canvas>
     <div id="color-wheel"></div>
     <script src="./main.js" type="module"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-analytics.js"></script>
+
+    <script>
+      firebase.initializeApp({
+        apiKey: 'AIzaSyAHDEEQVgqoIwhMziVvgWWTQDC9RKVYQaw',
+        authDomain: 'canvas-7dc7b.firebaseapp.com',
+        databaseURL: 'https://canvas-7dc7b.firebaseio.com',
+        projectId: 'canvas-7dc7b',
+        storageBucket: 'canvas-7dc7b.appspot.com',
+        messagingSenderId: '70030814057',
+        appId: '1:70030814057:web:b8e79528d2ad1d1ccf2bf8',
+        measurementId: 'G-QXG7N3VXBT',
+      })
+      firebase.analytics()
+    </script>
   </body>
 </html>

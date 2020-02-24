@@ -70,11 +70,16 @@ document.body.ontouchstart = e => {
   }
 }
 
+const lastTouches = []
+const delay = 2
+
 document.body.ontouchmove = e => {
   switch (e.touches.length) {
     case 1: {
-      ctx.lineTo(e.touches[0].clientX * scale, e.touches[0].clientY * scale)
-      ctx.stroke()
+      if (lastTouches[delay - 1] === 1) {
+        ctx.lineTo(e.touches[0].clientX * scale, e.touches[0].clientY * scale)
+        ctx.stroke()
+      }
       break
     }
     case 2: {
@@ -84,11 +89,14 @@ document.body.ontouchmove = e => {
       break
     }
   }
+  lastTouches.unshift(e.touches.length)
+  lastTouches.splice(delay)
 }
 
 document.body.ontouchend = document.body.ontouchcancel = e => {
   colorWheel.style.display = 'none'
   ctx.moveTo(e.clientX * scale, e.clientY * scale)
+  lastTouches.splice(0, lastTouches.length)
 }
 
 document.body.onmousedown = e => {

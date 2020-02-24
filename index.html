@@ -7,6 +7,7 @@
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <title>Canvas</title>
+    <meta name="description" content="A simple canvas." />
     <style>
       body,
       html,
@@ -19,15 +20,15 @@
         touch-action: manipulation;
       }
     </style>
+    <script src="./main.js" type="module" async defer></script>
   </head>
 
   <body>
     <canvas id="c"></canvas>
     <div id="color-wheel"></div>
-    <script src="./main.js" type="module"></script>
+
     <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.9.1/firebase-analytics.js"></script>
-
     <script>
       firebase.initializeApp({
         apiKey: 'AIzaSyAHDEEQVgqoIwhMziVvgWWTQDC9RKVYQaw',

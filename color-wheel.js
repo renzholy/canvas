@@ -42,7 +42,7 @@ export function generateColorWheel(colors, radius) {
   return {
     colorWheel,
     handleRotate(angle, r) {
-      const index = Math.round((angle / 2) * colors.length)
+      const index = Math.floor((angle / 2) * colors.length)
       const strokeStyle = colors[index]
       const lineHalfWidth = Math.max(Math.min((r - radius) << 1, radius), 0.5)
       wheel.style.transform = `rotate(${Math.round((1 - angle) * 180)}deg)`

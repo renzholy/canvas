@@ -27,7 +27,10 @@ const colors = [
   '#FFFFFF',
 ]
 
-const { colorWheel, handleColorSelect } = generateColorWheel(colors, colorWheelRadius)
+const { colorWheel, handleColorSelect, showColorWheel, hideColorWheel } = generateColorWheel(
+  colors,
+  colorWheelRadius,
+)
 document.body.appendChild(colorWheel)
 
 function onResize() {
@@ -60,11 +63,10 @@ document.body.ontouchstart = e => {
       break
     }
     case 2: {
-      colorWheel.style.left = `${((e.touches[0].clientX + e.touches[1].clientX) >> 1) -
-        colorWheelRadius}px`
-      colorWheel.style.top = `${((e.touches[0].clientY + e.touches[1].clientY) >> 1) -
-        colorWheelRadius}px`
-      colorWheel.style.display = 'block'
+      showColorWheel(
+        (e.touches[0].clientX + e.touches[1].clientX) >> 1,
+        (e.touches[0].clientY + e.touches[1].clientY) >> 1,
+      )
       break
     }
   }
@@ -94,7 +96,7 @@ document.body.ontouchmove = e => {
 }
 
 document.body.ontouchend = document.body.ontouchcancel = e => {
-  colorWheel.style.display = 'none'
+  hideColorWheel()
   ctx.moveTo(e.clientX * scale, e.clientY * scale)
   lastTouches.splice(0, lastTouches.length)
 }
@@ -107,9 +109,7 @@ document.body.onmousedown = e => {
       break
     }
     case 2: {
-      colorWheel.style.left = `${e.clientX - colorWheelRadius}px`
-      colorWheel.style.top = `${e.clientY - colorWheelRadius}px`
-      colorWheel.style.display = 'block'
+      showColorWheel(e.clientX, e.clientY)
       break
     }
   }
@@ -132,7 +132,7 @@ document.body.onmousemove = e => {
 }
 
 document.body.onmouseup = document.body.onmouseleave = e => {
-  colorWheel.style.display = 'none'
+  hideColorWheel()
   ctx.moveTo(e.clientX * scale, e.clientY * scale)
 }
 

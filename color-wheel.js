@@ -26,13 +26,23 @@ export function generateColorWheel(colors, radius) {
   center.style.border = `solid ${borderWidth}px white`
   center.style.borderRadius = '100%'
   colorWheel.appendChild(center)
-  function handleColorSelect(color, r) {
-    center.style.background = color
-    center.style.width = `${r}px`
-    center.style.height = `${r}px`
-    center.style.border = `solid ${(radius - r) / 2 + borderWidth}px ${
-      color === '#FFFFFF' ? '#000000' : '#FFFFFF'
-    }`
+  return {
+    colorWheel,
+    handleColorSelect(color, r) {
+      center.style.background = color
+      center.style.width = `${r}px`
+      center.style.height = `${r}px`
+      center.style.border = `solid ${(radius - r) / 2 + borderWidth}px ${
+        color === '#FFFFFF' ? '#000000' : '#FFFFFF'
+      }`
+    },
+    showColorWheel(x, y) {
+      colorWheel.style.left = `${x - radius}px`
+      colorWheel.style.top = `${y - radius}px`
+      colorWheel.style.display = 'block'
+    },
+    hideColorWheel() {
+      colorWheel.style.display = 'none'
+    },
   }
-  return { colorWheel, handleColorSelect }
 }

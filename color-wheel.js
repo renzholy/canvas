@@ -10,9 +10,10 @@ export function generateColorWheel(colors, radius) {
     sector.style.width = `${radius << 1}px`
     sector.style.height = `${radius << 1}px`
     sector.style.borderRadius = '100%'
-    sector.style.transform = `rotate(${index * 18 + 45}deg)`
-    sector.style.clipPath = 'polygon(50% 50%, 0% 0%, 25% 0%)'
-    sector.style.webkitClipPath = 'polygon(50% 50%, 0% 0%, 25% 0%)'
+    sector.style.transform = `rotate(${(index * 360) / colors.length + 45}deg)`
+    const deg45 = Math.PI / 4
+    const percentage = (Math.tan(deg45) - Math.tan(deg45 - (2 * Math.PI) / colors.length)) * 50
+    sector.style.webkitClipPath = sector.style.clipPath = `polygon(50% 50%, 0% 0%, ${percentage}% 0%)`
     colorWheel.appendChild(sector)
   }
   const center = document.createElement('div')

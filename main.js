@@ -158,6 +158,6 @@ window.onload = () => {
 
 setInterval(() => {
   set('canvas', ctx.getImageData(0, 0, c.width, c.height))
-}, 1000)
+}, 5 * 1000)
 
 onResize()

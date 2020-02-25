@@ -78,13 +78,12 @@ document.body.ontouchstart = e => {
   }
 }
 
-const lastTouches = []
-const delay = 2
+const lastTouchLength = 1
 
 document.body.ontouchmove = e => {
   switch (e.touches.length) {
     case 1: {
-      if (lastTouches[delay - 1] === 1) {
+      if (lastTouchLength === 1) {
         ctx.lineTo(e.touches[0].clientX * scale, e.touches[0].clientY * scale)
         ctx.stroke()
       }
@@ -97,14 +96,13 @@ document.body.ontouchmove = e => {
       break
     }
   }
-  lastTouches.unshift(e.touches.length)
-  lastTouches.splice(delay)
+  lastTouchLength = e.touches.length
 }
 
 document.body.ontouchend = document.body.ontouchcancel = e => {
   hideColorWheel()
   ctx.moveTo(e.clientX * scale, e.clientY * scale)
-  lastTouches.splice(0, lastTouches.length)
+  set('canvas', ctx.getImageData(0, 0, c.width, c.height))
 }
 
 document.body.onmousedown = e => {
@@ -140,6 +138,7 @@ document.body.onmousemove = e => {
 document.body.onmouseup = document.body.onmouseleave = e => {
   hideColorWheel()
   ctx.moveTo(e.clientX * scale, e.clientY * scale)
+  set('canvas', ctx.getImageData(0, 0, c.width, c.height))
 }
 
 document.body.oncontextmenu = e => {
@@ -155,9 +154,5 @@ window.onload = () => {
     { passive: false },
   )
 }
-
-setInterval(() => {
-  set('canvas', ctx.getImageData(0, 0, c.width, c.height))
-}, 5 * 1000)
 
 onResize()

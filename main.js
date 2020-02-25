@@ -1,7 +1,14 @@
+import { get, set } from 'https://cdn.jsdelivr.net/npm/idb-keyval@3/dist/idb-keyval.mjs'
+
 import { generateColorWheel } from './color-wheel.js'
 
 const c = document.getElementById('c')
 const ctx = c.getContext('2d')
+get('canvas').then(imageData => {
+  if (imageData) {
+    ctx.putImageData(imageData, 0, 0)
+  }
+})
 const scale = window.devicePixelRatio
 const colorWheelRadius = 100
 const colors = [
@@ -148,5 +155,9 @@ window.onload = () => {
     { passive: false },
   )
 }
+
+setInterval(() => {
+  set('canvas', ctx.getImageData(0, 0, c.width, c.height))
+}, 1000)
 
 onResize()

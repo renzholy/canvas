@@ -34,8 +34,10 @@ const { colorWheel, handleRotate, showColorWheel, hideColorWheel } = generateCol
 document.body.appendChild(colorWheel)
 
 function onResize() {
+  const imageData = ctx.getImageData(0, 0, c.width, c.height)
   c.width = window.innerWidth * scale
   c.height = window.innerHeight * scale
+  ctx.putImageData(imageData, 0, 0)
 }
 
 function handleColorWheel(x, y) {

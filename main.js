@@ -27,7 +27,7 @@ const colors = [
   '#FFFFFF',
 ]
 
-const { colorWheel, handleColorSelect, showColorWheel, hideColorWheel } = generateColorWheel(
+const { colorWheel, handleRotate, showColorWheel, hideColorWheel } = generateColorWheel(
   colors,
   colorWheelRadius,
 )
@@ -41,12 +41,9 @@ function onResize() {
 function handleColorWheel(x, y) {
   const radius = Math.sqrt(x * x + y * y)
   const angle = (Math.atan2(y, x) / Math.PI + 1.5) % 2
-  const index = colors.length - Math.floor((angle / 2) * colors.length) - 1
-  const color = colors[index]
-  const r = Math.max(Math.min((radius - colorWheelRadius) << 1, colorWheelRadius), 0.5)
-  handleColorSelect(color, r)
-  ctx.strokeStyle = color
-  ctx.lineWidth = r * 2
+  const { strokeStyle, lineWidth } = handleRotate(angle, radius)
+  ctx.strokeStyle = strokeStyle
+  ctx.lineWidth = lineWidth
   ctx.lineCap = 'round'
   ctx.lineJoin = 'round'
 }

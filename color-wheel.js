@@ -28,13 +28,17 @@ export function generateColorWheel(colors, radius) {
   colorWheel.appendChild(center)
   return {
     colorWheel,
-    handleColorSelect(color, r) {
-      center.style.background = color
-      center.style.width = `${r}px`
-      center.style.height = `${r}px`
-      center.style.border = `solid ${(radius - r) / 2 + borderWidth}px ${
-        color === '#FFFFFF' ? '#000000' : '#FFFFFF'
+    handleRotate(angle, r) {
+      const index = colors.length - Math.floor((angle / 2) * colors.length) - 1
+      const strokeStyle = colors[index]
+      const lineHalfWidth = Math.max(Math.min((r - radius) << 1, radius), 0.5)
+      center.style.background = strokeStyle
+      center.style.width = `${lineHalfWidth}px`
+      center.style.height = `${lineHalfWidth}px`
+      center.style.border = `solid ${(radius - lineHalfWidth) / 2 + borderWidth}px ${
+        strokeStyle === '#FFFFFF' ? '#000000' : '#FFFFFF'
       }`
+      return { strokeStyle, lineWidth: lineHalfWidth * 2 }
     },
     showColorWheel(x, y) {
       colorWheel.style.left = `${x - radius}px`

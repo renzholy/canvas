@@ -3,6 +3,7 @@ export function generateColorWheel(colors, radius) {
   const colorWheel = document.createElement('div')
   colorWheel.style.display = 'none'
   colorWheel.style.position = 'fixed'
+  colorWheel.style.transformOrigin = `${radius}px ${radius}px`
   for (const index in colors) {
     const sector = document.createElement('div')
     sector.style.position = 'absolute'
@@ -32,7 +33,6 @@ export function generateColorWheel(colors, radius) {
       const index = Math.floor((angle / 2) * colors.length)
       const strokeStyle = colors[index]
       const lineHalfWidth = Math.max(Math.min((r - radius) << 1, radius), 0.5)
-      colorWheel.style.transformOrigin = `${radius}px ${radius}px`
       colorWheel.style.transform = `rotate(${Math.floor((1 - angle) * 180)}deg)`
       center.style.background = strokeStyle
       center.style.width = `${lineHalfWidth}px`

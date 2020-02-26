@@ -42,8 +42,9 @@ export function generateColorWheel(colors, radius) {
   let color
   return {
     colorWheel,
-    handleRotate(angle, r) {
-      const index = Math.floor((angle / 2) * colors.length)
+    handleRotate(x, y, r) {
+      const angle = (Math.atan2(y, x) / Math.PI) % 2
+      const index = (Math.floor((angle / 2) * colors.length) + colors.length) % colors.length
       if ('vibrate' in navigator && color !== colors[index]) {
         navigator.vibrate(30)
       }

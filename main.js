@@ -54,8 +54,7 @@ function onResize() {
 
 function handleColorWheel(x, y) {
   const radius = Math.sqrt(x * x + y * y)
-  const angle = (Math.atan2(y, x) / Math.PI + 1.5) % 2
-  const { strokeStyle, lineWidth } = handleRotate(angle, radius)
+  const { strokeStyle, lineWidth } = handleRotate(x, y, radius)
   localStorage.setItem('strokeStyle', strokeStyle)
   localStorage.setItem('lineWidth', lineWidth)
   ctx.strokeStyle = strokeStyle

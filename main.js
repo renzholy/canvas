@@ -7,6 +7,10 @@ const ctx = c.getContext('2d')
 get('canvas').then(imageData => {
   if (imageData) {
     ctx.putImageData(imageData, 0, 0)
+    ctx.strokeStyle = localStorage.getItem('strokeStyle')
+    ctx.lineWidth = parseInt(localStorage.getItem('lineWidth'))
+    ctx.lineCap = 'round'
+    ctx.lineJoin = 'round'
   }
 })
 const scale = window.devicePixelRatio
@@ -37,6 +41,7 @@ const colors = [
 const { colorWheel, handleRotate, showColorWheel, hideColorWheel } = generateColorWheel(
   colors,
   colorWheelRadius,
+  localStorage.getItem('strokeStyle'),
 )
 document.body.appendChild(colorWheel)
 
@@ -51,6 +56,8 @@ function handleColorWheel(x, y) {
   const radius = Math.sqrt(x * x + y * y)
   const angle = (Math.atan2(y, x) / Math.PI + 1.5) % 2
   const { strokeStyle, lineWidth } = handleRotate(angle, radius)
+  localStorage.setItem('strokeStyle', strokeStyle)
+  localStorage.setItem('lineWidth', lineWidth)
   ctx.strokeStyle = strokeStyle
   ctx.lineWidth = lineWidth
   ctx.lineCap = 'round'

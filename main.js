@@ -78,6 +78,8 @@ document.body.ontouchstart = e => {
       showColorWheel(
         (e.touches[0].clientX + e.touches[1].clientX) >> 1,
         (e.touches[0].clientY + e.touches[1].clientY) >> 1,
+        (e.touches[0].clientX - e.touches[1].clientX) >> 1,
+        (e.touches[1].clientY - e.touches[0].clientY) >> 1,
       )
       break
     }
@@ -122,7 +124,12 @@ document.body.onmousedown = e => {
       break
     }
     case 2: {
-      showColorWheel(e.clientX, e.clientY)
+      showColorWheel(
+        e.clientX,
+        e.clientY,
+        e.clientX - colorWheel.offsetLeft - colorWheelRadius,
+        -(e.clientY - colorWheel.offsetTop - colorWheelRadius),
+      )
       break
     }
   }

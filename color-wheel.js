@@ -40,10 +40,13 @@ export function generateColorWheel(colors, radius) {
   center.style.borderRadius = '100%'
   colorWheel.appendChild(center)
   let color
+  let angleOffset = 0
+  let angleLast = 0
+  let angle
   return {
     colorWheel,
     handleRotate(x, y, r) {
-      const angle = (Math.atan2(y, x) / Math.PI) % 2
+      angle = ((Math.atan2(y, x) / Math.PI) % 2) - angleOffset + angleLast
       const index = (Math.floor((angle / 2) * colors.length) + colors.length) % colors.length
       if ('vibrate' in navigator && color !== colors[index]) {
         navigator.vibrate(30)
@@ -60,12 +63,14 @@ export function generateColorWheel(colors, radius) {
       }`
       return { strokeStyle: color, lineWidth: lineHalfWidth * 2 }
     },
-    showColorWheel(x, y) {
+    showColorWheel(x, y, x1, y1) {
+      angleOffset = (Math.atan2(y1, x1) / Math.PI) % 2
       colorWheel.style.left = `${x - radius}px`
       colorWheel.style.top = `${y - radius}px`
       colorWheel.style.display = 'block'
     },
     hideColorWheel() {
+      angleLast = angle
       colorWheel.style.display = 'none'
     },
   }

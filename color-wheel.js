@@ -39,21 +39,25 @@ export function generateColorWheel(colors, radius) {
   center.style.border = `solid ${borderWidth}px white`
   center.style.borderRadius = '100%'
   colorWheel.appendChild(center)
+  let color
   return {
     colorWheel,
     handleRotate(angle, r) {
       const index = Math.floor((angle / 2) * colors.length)
-      const strokeStyle = colors[index]
+      if ('vibrate' in navigator && color !== colors[index]) {
+        navigator.vibrate(30)
+      }
+      color = colors[index]
       const lineHalfWidth = Math.max(Math.min((r - radius) << 1, radius), 0.5)
       wheel.style.transform = `rotate(${Math.round((1 - angle) * 180)}deg)`
-      arrow.style.borderTop = `${arrowSize}px solid ${strokeStyle}`
-      center.style.background = strokeStyle
+      arrow.style.borderTop = `${arrowSize}px solid ${color}`
+      center.style.background = color
       center.style.width = `${lineHalfWidth}px`
       center.style.height = `${lineHalfWidth}px`
       center.style.border = `solid ${(radius - lineHalfWidth) / 2 + borderWidth}px ${
-        strokeStyle === '#FFFFFF' ? '#000000' : '#FFFFFF'
+        color === '#FFFFFF' ? '#000000' : '#FFFFFF'
       }`
-      return { strokeStyle, lineWidth: lineHalfWidth * 2 }
+      return { strokeStyle: color, lineWidth: lineHalfWidth * 2 }
     },
     showColorWheel(x, y) {
       colorWheel.style.left = `${x - radius}px`

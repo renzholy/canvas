@@ -42,7 +42,7 @@ export function generateColorWheel(colors, radius) {
   let color
   let angleOffset = 0
   let angleLast = 0
-  let angle
+  let angle = 0
   return {
     colorWheel,
     handleRotate(x, y, r) {
